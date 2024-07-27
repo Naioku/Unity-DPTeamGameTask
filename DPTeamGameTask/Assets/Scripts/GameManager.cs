@@ -5,6 +5,8 @@ namespace DPTeam
     [System.Serializable]
     public class GameManager
     {
+        [field: SerializeField] public GameplayVolume GameplayVolume { get; private set; }
+
         public void StartGame()
         {
             Debug.Log("StartGame");
