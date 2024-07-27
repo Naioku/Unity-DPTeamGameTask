@@ -74,6 +74,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-#TestsDirectory
+#TestsDirectories
 Assets/Scripts/Tests
 Assets/Scripts/Tests.meta
+Assets/TestingItems
+Assets/TestingItems.meta
