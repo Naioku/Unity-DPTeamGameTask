@@ -102,7 +102,7 @@ namespace DPTeam.AgentSystem
         private void HandleOnDeath(AgentController agent)
         {
             ReleaseAgent(agent);
-            if (currentlySelectedAgent.Equals(agent))
+            if (currentlySelectedAgent == agent)
             {
                 DeselectCurrentAgent(true);
             }
