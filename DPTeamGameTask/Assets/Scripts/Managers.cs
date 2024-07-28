@@ -1,3 +1,4 @@
+using DPTeam.InputSystem;
 using DPTeam.SpawningSystem;
 using DPTeam.UpdateSystem;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace DPTeam
         [field: SerializeField] public GameManager GameManager { get; private set; }
         [field: SerializeField] public SpawningManager<Enums.SpawnableObjects> SpawningManager { get; private set; }
         public UpdateManager UpdateManager { get; private set; }
+        public InputManager InputManager { get; private set; }
 
         private void Awake()
         {
@@ -25,10 +27,14 @@ namespace DPTeam
             }
 
             UpdateManager = new UpdateManager();
+            InputManager = new InputManager();
             
             SpawningManager.Awake();
+            InputManager.Awake();
         }
-        
+
+        private void OnDestroy() => InputManager.Destroy();
+
         private void Update() => UpdateManager.UpdateActions.InvokeActions();
         private void FixedUpdate() => UpdateManager.FixedUpdateActions.InvokeActions();
         private void LateUpdate() => UpdateManager.LateUpdateActions.InvokeActions();
