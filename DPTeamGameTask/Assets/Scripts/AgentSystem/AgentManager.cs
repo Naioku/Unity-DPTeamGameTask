@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DPTeam.AgentSystem.UI;
+using UnityEngine;
 using UnityEngine.Pool;
 
 namespace DPTeam.AgentSystem
@@ -13,8 +14,11 @@ namespace DPTeam.AgentSystem
         [SerializeField] [Range(3, 5)] private int agentCountOnStart = 5;
         [SerializeField] [Range(2, 6)] private float timeBetweenAgentsSpawning = 2;
 
+        private int agentsCounter;
         private ObjectPool<AgentController> agentPool;
         private float timeSinceLastAgentSpawn;
+        private AgentHUD hud;
+        private AgentController currentlySelectedAgent;
 
         public void Awake()
         {
@@ -25,12 +29,17 @@ namespace DPTeam.AgentSystem
                 OnDestroyAgent,
                 maxSize: maxPoolSize
             );
+            
+            hud = Managers.Instance.SpawningManager.SpawnLocal<AgentHUD>(Enums.SpawnableObjects.AgentHUD);
+            hud.Hide();
+            Managers.Instance.InputManager.GlobalMap.OnDeselectData.Performed += DeselectAgentInput;
         }
         
         public void OnDestroy()
         {
             agentPool.Clear();
             Managers.Instance.UpdateManager.UpdateActions.RemoveAction(SpawnAgentInCycle);
+            Managers.Instance.InputManager.GlobalMap.OnDeselectData.Performed -= DeselectAgentInput;
         }
 
         public void StartSpawning()
@@ -72,14 +81,16 @@ namespace DPTeam.AgentSystem
         private AgentController CreateAgent()
         {
             AgentController agentController = Managers.Instance.SpawningManager.SpawnLocal<AgentController>(Enums.SpawnableObjects.Agent);
-            agentController.OnDeathAction = ReleaseAgent;
+            agentController.OnDeathAction = HandleOnDeath;
+            agentController.OnSelectAction = HandleOnSelect;
             agentController.transform.SetParent(transform);
             return agentController;
         }
 
         private void OnGetAgent(AgentController agent)
         {
-            agent.Initialize(health, attackStrength, speed);
+            agent.Initialize($"Agent {agentsCounter}", health, attackStrength, speed);
+            agentsCounter++;
             agent.transform.position = Managers.Instance.GameManager.GameplayVolume.GetRandomPointInsideVolume();
             agent.gameObject.SetActive(true);
         }
@@ -87,7 +98,44 @@ namespace DPTeam.AgentSystem
         private void OnReleaseAgent(AgentController agent) => agent.gameObject.SetActive(false);
         private void OnDestroyAgent(AgentController agent) =>
             Managers.Instance.SpawningManager.DespawnLocal(agent.gameObject);
+        
+        private void HandleOnDeath(AgentController agent)
+        {
+            ReleaseAgent(agent);
+            if (currentlySelectedAgent.Equals(agent))
+            {
+                DeselectCurrentAgent(true);
+            }
+        }
+        
+        private void HandleOnSelect(AgentController agent)
+        {
+            DeselectCurrentAgent(false);
+            currentlySelectedAgent = agent;
+            currentlySelectedAgent.OnHealthChangeAction = HandleOnHealthChange;
+            hud.SetAgentInfo(agent);
+            hud.Show();
+        }
+
+        private void HandleOnHealthChange(int health) => hud.SetHealth(health);
+        
         private void ReleaseAgent(AgentController agent) => agentPool.Release(agent);
+
+        private void DeselectCurrentAgent(bool hideHud)
+        {
+            if (!currentlySelectedAgent) return;
+
+            if (hideHud)
+            {
+                hud.Hide();
+            }
+            
+            currentlySelectedAgent.OnHealthChangeAction = null;
+            currentlySelectedAgent.Deselect();
+            currentlySelectedAgent = null;
+        }
+
+        private void DeselectAgentInput() => DeselectCurrentAgent(true);
 
 #endregion
 

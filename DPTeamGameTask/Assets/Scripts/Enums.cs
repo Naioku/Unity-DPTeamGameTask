@@ -7,7 +7,8 @@
             GameBoard,
             GameplayVolume,
             AgentManager,
-            Agent
+            Agent,
+            AgentHUD
         }
         
         public enum InteractionType
