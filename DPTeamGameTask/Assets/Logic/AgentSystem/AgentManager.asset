@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0007917a6dc04f399d28e1761970db7c, type: 3}
-  m_Name: Agent
+  m_Name: AgentManager
   m_EditorClassIdentifier: 
-  objName: 1
-  prefab: {fileID: 8055832382973970434, guid: 6990c5922cc7ff54d9eecfa2820dc05a, type: 3}
+  objName: 0
+  prefab: {fileID: 2819404833202979523, guid: ac7b54be12b3a3c46bc3b41ba41fede1, type: 3}

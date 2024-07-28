@@ -3,8 +3,7 @@ using UnityEngine.Pool;
 
 namespace DPTeam.AgentSystem
 {
-    [System.Serializable]
-    public class AgentManager
+    public class AgentManager : MonoBehaviour
     {
         [SerializeField] private int health = 3;
         [SerializeField] private int attackStrength = 1;
@@ -27,12 +26,8 @@ namespace DPTeam.AgentSystem
                 maxSize: maxPoolSize
             );
         }
-
-        // Todo: Invoke in the SceneManager.
-        /// <summary>
-        /// Clears every data, that should not be preserved on scene changing.
-        /// </summary>
-        public void ClearData()
+        
+        public void OnDestroy()
         {
             agentPool.Clear();
             Managers.Instance.UpdateManager.UpdateActions.RemoveAction(SpawnAgentInCycle);
@@ -78,6 +73,7 @@ namespace DPTeam.AgentSystem
         {
             AgentController agentController = Managers.Instance.SpawningManager.CreateObject<AgentController>(Enums.SpawnableObjects.Agent);
             agentController.OnDeathAction = ReleaseAgent;
+            agentController.transform.SetParent(transform);
             return agentController;
         }
 

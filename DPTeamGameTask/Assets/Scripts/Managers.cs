@@ -1,4 +1,3 @@
-using DPTeam.AgentSystem;
 using DPTeam.SpawningSystem;
 using DPTeam.UpdateSystem;
 using UnityEngine;
@@ -11,7 +10,6 @@ namespace DPTeam
 
         [field: SerializeField] public GameManager GameManager { get; private set; }
         [field: SerializeField] public SpawnManager<Enums.SpawnableObjects> SpawningManager { get; private set; }
-        [field: SerializeField] public AgentManager AgentManager { get; private set; }
         public UpdateManager UpdateManager { get; private set; }
 
         private void Awake()
@@ -28,7 +26,6 @@ namespace DPTeam
 
             UpdateManager = new UpdateManager();
             
-            AgentManager.Awake();
             SpawningManager.Awake();
         }
         
@@ -44,10 +41,6 @@ namespace DPTeam
 
         [ContextMenu("QuitGame")]
         private void QuitGame() => GameManager.QuitGame();
-        
-        
-        [ContextMenu("Spawn 10 Agents")]
-        public void Spawn10Agents() => AgentManager.Spawn10Agents();
 
 #endregion
     }

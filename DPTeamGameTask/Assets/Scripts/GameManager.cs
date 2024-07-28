@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DPTeam.AgentSystem;
+using UnityEngine;
 
 namespace DPTeam
 {
@@ -19,7 +20,8 @@ namespace DPTeam
 
             Debug.Log("StartGame");
             isGameStarted = true;
-            Managers.Instance.AgentManager.StartSpawning();
+            AgentManager agentManager = Managers.Instance.SpawningManager.CreateObject<AgentManager>(Enums.SpawnableObjects.AgentManager);
+            agentManager.StartSpawning();
         }
 
         public void QuitGame()

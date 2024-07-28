@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5362544272826537603
+--- !u!1 &2819404833202979523
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3048444235425808896}
-  - component: {fileID: -3641730396440927426}
+  - component: {fileID: 2868936258144376750}
+  - component: {fileID: -8815311049254313172}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: AgentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3048444235425808896
+--- !u!4 &2868936258144376750
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362544272826537603}
+  m_GameObject: {fileID: 2819404833202979523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,21 +32,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3641730396440927426
+--- !u!114 &-8815311049254313172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362544272826537603}
+  m_GameObject: {fileID: 2819404833202979523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ddd94380eb740e786c44c1563d96d17, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b97779df5ac44db80e25e07a3675e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <GameManager>k__BackingField:
-    <GameplayVolume>k__BackingField: {fileID: 0}
-  <SpawningManager>k__BackingField:
-    spawnableItems:
-    - {fileID: 11400000, guid: f331738bc13fe7e4c95c2e87f6fee7c9, type: 2}
-    - {fileID: 11400000, guid: cd663a0cf0bb71d40ac489a5679afe97, type: 2}
+  health: 3
+  attackStrength: 1
+  speed: 5
+  maxPoolSize: 30
+  maxActiveAgentsCount: 30
+  agentCountOnStart: 5
+  timeBetweenAgentsSpawning: 2

@@ -4,6 +4,7 @@
     {
         public enum SpawnableObjects
         {
+            AgentManager,
             Agent
         }
     }
