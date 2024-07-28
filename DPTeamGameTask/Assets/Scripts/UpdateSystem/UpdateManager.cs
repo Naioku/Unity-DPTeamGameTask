@@ -13,64 +13,71 @@ namespace DPTeam.UpdateSystem
 
     public class UpdaterActions
     {
-        private readonly List<ActionItem> actions = new();
-        private readonly List<ActionItem> actionsToAdd = new();
-        private readonly HashSet<Action> actionsToRemove = new();
+        private readonly List<ActionItem> actionItems = new();
+        private readonly List<ActionItem> actionItemsToAdd = new();
 
         public void AddAction(Action action, int priority = 0)
         {
             if (DoesAlreadyExist(action)) return;
 
-            actionsToAdd.Add(new ActionItem(action, priority));
+            actionItemsToAdd.Add(new ActionItem(action, priority));
         }
 
         public void RemoveAction(Action action)
         {
-            actionsToRemove.Add(action);
+            bool foundAction = false;
+            int actionItemsCount = actionItems.Count;
+            for (int i = 0; i < actionItemsCount; i++)
+            {
+                ActionItem actionItem = actionItems[i];
+                if (actionItem.Action.Equals(action))
+                {
+                    foundAction = true;
+                    actionItem.Active = false;
+                    break;
+                }
+            }
+            
+            if (!foundAction)
+            {
+                Debug.LogWarning("You are trying to remove action not added yet.");
+            }
         }
 
         public void InvokeActions()
         {
-            foreach (var actionItem in actions)
+            foreach (ActionItem actionItem in actionItems)
             {
+                if (!actionItem.Active) continue;
+                
                 actionItem.InvokeAction();
             }
             
             RemoveActionsInternal();
             AddActionsInternal();
-
         }
 
         private void RemoveActionsInternal()
         {
-            for (int i = actions.Count - 1; i >= 0; i--)
+            for (int i = actionItems.Count - 1; i >= 0; i--)
             {
-                Action action = actions[i].Action;
-                if (actionsToRemove.Contains(action))
-                {
-                    actions.RemoveAt(i);
-                    actionsToRemove.Remove(action);
-                }
-            }
-
-            if (actionsToRemove.Count > 0)
-            {
-                Debug.LogWarning("You are trying to remove action not added yet.");
-                actionsToRemove.Clear();
+                if (actionItems[i].Active) continue;
+                
+                actionItems.RemoveAt(i);
             }
         }
 
         private void AddActionsInternal()
         {
-            actions.AddRange(actionsToAdd);
-            actions.Sort();
+            actionItems.AddRange(actionItemsToAdd);
+            actionItems.Sort();
             
-            actionsToAdd.Clear();
+            actionItemsToAdd.Clear();
         }
 
         private bool DoesAlreadyExist(Action action)
         {
-            foreach (ActionItem existingAction in actions)
+            foreach (ActionItem existingAction in actionItems)
             {
                 if (!existingAction.Equals(action)) continue;
                 
@@ -83,14 +90,16 @@ namespace DPTeam.UpdateSystem
 
         private class ActionItem : IComparable<ActionItem>
         {
+            private readonly int priority;
+                
+            public Action Action { get; }
+            public bool Active { get; set; } = true;
+            
             public ActionItem(Action action, int priority)
             {
                 Action = action;
                 this.priority = priority;
             }
-            
-            public Action Action { get; }
-            private readonly int priority;
 
             public void InvokeAction() => Action.Invoke();
 
