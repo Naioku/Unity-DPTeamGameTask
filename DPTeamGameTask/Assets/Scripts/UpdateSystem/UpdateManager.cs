@@ -6,9 +6,9 @@ namespace DPTeam.UpdateSystem
 {
     public class UpdateManager
     {
-        public UpdaterActions UpdateActions { get; private set; } = new UpdaterActions();
-        public UpdaterActions FixedUpdateActions { get; private set; } = new UpdaterActions();
-        public UpdaterActions LateUpdateActions { get; private set; } = new UpdaterActions();
+        public UpdaterActions UpdateActions { get; private set; } = new();
+        public UpdaterActions FixedUpdateActions { get; private set; } = new();
+        public UpdaterActions LateUpdateActions { get; private set; } = new();
     }
 
     public class UpdaterActions
