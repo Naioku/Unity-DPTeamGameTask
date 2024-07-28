@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.Serialization;
 
 namespace DPTeam.AgentSystem
 {
@@ -13,8 +12,10 @@ namespace DPTeam.AgentSystem
         [SerializeField] private int maxPoolSize = 30;
         [SerializeField] private int maxActiveAgentsCount = 30;
         [SerializeField] [Range(3, 5)] private int agentCountOnStart = 5;
+        [SerializeField] [Range(2, 6)] private float timeBetweenAgentsSpawning = 2;
 
         private ObjectPool<AgentController> agentPool;
+        private float timeSinceLastAgentSpawn;
 
         public void Awake()
         {
@@ -27,12 +28,35 @@ namespace DPTeam.AgentSystem
             );
         }
 
+        // Todo: Invoke in the SceneManager.
+        /// <summary>
+        /// Clears every data, that should not be preserved on scene changing.
+        /// </summary>
+        public void ClearData()
+        {
+            agentPool.Clear();
+            Managers.Instance.UpdateManager.UpdateActions.RemoveAction(SpawnAgentInCycle);
+        }
+
         public void StartSpawning()
         {
             for (int i = 0; i < agentCountOnStart; i++)
             {
                 SpawnAgent();
             }
+            
+            Managers.Instance.UpdateManager.UpdateActions.AddAction(SpawnAgentInCycle);
+        }
+
+        private void SpawnAgentInCycle()
+        {
+            if (timeSinceLastAgentSpawn >= timeBetweenAgentsSpawning)
+            {
+                SpawnAgent();
+                timeSinceLastAgentSpawn -= timeBetweenAgentsSpawning;
+            }
+
+            timeSinceLastAgentSpawn += Time.deltaTime;
         }
 
         private bool SpawnAgent()
@@ -48,6 +72,8 @@ namespace DPTeam.AgentSystem
             return true;
         }
 
+#region Pooling
+
         private AgentController CreateAgent()
         {
             AgentController agentController = Managers.Instance.SpawningManager.CreateObject<AgentController>(Enums.SpawnableObjects.Agent);
@@ -61,12 +87,15 @@ namespace DPTeam.AgentSystem
             agent.transform.position = Managers.Instance.GameManager.GameplayVolume.GetRandomPointInsideVolume();
             agent.gameObject.SetActive(true);
         }
-        
+
         private void OnReleaseAgent(AgentController agent) => agent.gameObject.SetActive(false);
         private void OnDestroyAgent(AgentController agent) => Object.Destroy(agent.gameObject);
         private void ReleaseAgent(AgentController agent) => agentPool.Release(agent);
-        
-        // Test
+
+#endregion
+
+#region Tests
+
         public void Spawn10Agents()
         {
             for (int i = 0; i < 10; i++)
@@ -74,5 +103,7 @@ namespace DPTeam.AgentSystem
                 if (!SpawnAgent()) break;
             }
         }
+
+#endregion
     }
 }

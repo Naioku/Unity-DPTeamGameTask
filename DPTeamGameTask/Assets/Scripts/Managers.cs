@@ -35,7 +35,9 @@ namespace DPTeam
         private void Update() => UpdateManager.UpdateActions.InvokeActions();
         private void FixedUpdate() => UpdateManager.FixedUpdateActions.InvokeActions();
         private void LateUpdate() => UpdateManager.LateUpdateActions.InvokeActions();
-        
+
+#region Tests
+
         // Todo: Tests. Delete after UI implementation.
         [ContextMenu("StartGame")]
         private void StartGame() => GameManager.StartGame();
@@ -46,5 +48,7 @@ namespace DPTeam
         
         [ContextMenu("Spawn 10 Agents")]
         public void Spawn10Agents() => AgentManager.Spawn10Agents();
+
+#endregion
     }
 }

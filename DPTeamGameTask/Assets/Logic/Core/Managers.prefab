@@ -54,3 +54,6 @@ MonoBehaviour:
     attackStrength: 1
     speed: 5
     maxPoolSize: 30
+    maxActiveAgentsCount: 30
+    agentCountOnStart: 5
+    timeBetweenAgentsSpawning: 2
