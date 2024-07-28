@@ -42,5 +42,9 @@ namespace DPTeam
 
         [ContextMenu("QuitGame")]
         private void QuitGame() => GameManager.QuitGame();
+        
+        
+        [ContextMenu("Spawn 10 Agents")]
+        public void Spawn10Agents() => AgentManager.Spawn10Agents();
     }
 }
