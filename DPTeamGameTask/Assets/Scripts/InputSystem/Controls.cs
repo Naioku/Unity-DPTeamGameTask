@@ -46,6 +46,15 @@ namespace DPTeam.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShowMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c09fb77-67ea-43b4-85de-2c118a81f87d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -70,6 +79,17 @@ namespace DPTeam.InputSystem
                     ""action"": ""Deselect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5372e3a-69df-404b-9a2a-d4934b5a5c7a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -80,6 +100,7 @@ namespace DPTeam.InputSystem
             m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
             m_Global_ClickInteraction = m_Global.FindAction("ClickInteraction", throwIfNotFound: true);
             m_Global_Deselect = m_Global.FindAction("Deselect", throwIfNotFound: true);
+            m_Global_ShowMenu = m_Global.FindAction("ShowMenu", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -143,12 +164,14 @@ namespace DPTeam.InputSystem
         private List<IGlobalActions> m_GlobalActionsCallbackInterfaces = new List<IGlobalActions>();
         private readonly InputAction m_Global_ClickInteraction;
         private readonly InputAction m_Global_Deselect;
+        private readonly InputAction m_Global_ShowMenu;
         public struct GlobalActions
         {
             private @Controls m_Wrapper;
             public GlobalActions(@Controls wrapper) { m_Wrapper = wrapper; }
             public InputAction @ClickInteraction => m_Wrapper.m_Global_ClickInteraction;
             public InputAction @Deselect => m_Wrapper.m_Global_Deselect;
+            public InputAction @ShowMenu => m_Wrapper.m_Global_ShowMenu;
             public InputActionMap Get() { return m_Wrapper.m_Global; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -164,6 +187,9 @@ namespace DPTeam.InputSystem
                 @Deselect.started += instance.OnDeselect;
                 @Deselect.performed += instance.OnDeselect;
                 @Deselect.canceled += instance.OnDeselect;
+                @ShowMenu.started += instance.OnShowMenu;
+                @ShowMenu.performed += instance.OnShowMenu;
+                @ShowMenu.canceled += instance.OnShowMenu;
             }
 
             private void UnregisterCallbacks(IGlobalActions instance)
@@ -174,6 +200,9 @@ namespace DPTeam.InputSystem
                 @Deselect.started -= instance.OnDeselect;
                 @Deselect.performed -= instance.OnDeselect;
                 @Deselect.canceled -= instance.OnDeselect;
+                @ShowMenu.started -= instance.OnShowMenu;
+                @ShowMenu.performed -= instance.OnShowMenu;
+                @ShowMenu.canceled -= instance.OnShowMenu;
             }
 
             public void RemoveCallbacks(IGlobalActions instance)
@@ -195,6 +224,7 @@ namespace DPTeam.InputSystem
         {
             void OnClickInteraction(InputAction.CallbackContext context);
             void OnDeselect(InputAction.CallbackContext context);
+            void OnShowMenu(InputAction.CallbackContext context);
         }
     }
 }

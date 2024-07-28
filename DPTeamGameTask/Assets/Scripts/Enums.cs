@@ -8,7 +8,8 @@
             GameplayVolume,
             AgentManager,
             Agent,
-            AgentHUD
+            AgentHUD,
+            Menu
         }
         
         public enum InteractionType
