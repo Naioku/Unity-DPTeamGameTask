@@ -20,13 +20,15 @@ namespace DPTeam.SpawningSystem
             }
         }
         
-        public GameObject CreateObject(TKey name) =>
+        public GameObject SpawnLocal(TKey name) =>
             Object.Instantiate(entityItemsLookup[name].GetPrefab());
 
-        public GameObject CreateObject(TKey name, Vector3 position, Quaternion rotation) =>
+        public GameObject SpawnLocal(TKey name, Vector3 position, Quaternion rotation) =>
             Object.Instantiate(entityItemsLookup[name].GetPrefab(), position, rotation);
         
-        public T CreateObject<T>(TKey name) where T : Component =>
+        public T SpawnLocal<T>(TKey name) where T : Component =>
             Object.Instantiate(entityItemsLookup[name].GetPrefab()).GetComponent<T>();
+
+        public void DespawnLocal(GameObject instance) => Object.Destroy(instance);
     }
 }

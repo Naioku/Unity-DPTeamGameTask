@@ -25,17 +25,17 @@ namespace DPTeam
             SpawnWorld();
 
             isGameStarted = true;
-            AgentManager agentManager = Managers.Instance.SpawningManager.CreateObject<AgentManager>(Enums.SpawnableObjects.AgentManager);
+            AgentManager agentManager = Managers.Instance.SpawningManager.SpawnLocal<AgentManager>(Enums.SpawnableObjects.AgentManager);
             agentManager.StartSpawning();
         }
 
         private void SpawnWorld()
         {
             SpawningManager<Enums.SpawnableObjects> spawningManager = Managers.Instance.SpawningManager;
-            GameObject gameBoard = spawningManager.CreateObject(Enums.SpawnableObjects.GameBoard);
+            GameObject gameBoard = spawningManager.SpawnLocal(Enums.SpawnableObjects.GameBoard);
             gameBoard.transform.localScale = new Vector3(gameBoardSize.x, 1, gameBoardSize.y);
 
-            GameplayVolume = spawningManager.CreateObject<GameplayVolume>(Enums.SpawnableObjects.GameplayVolume);
+            GameplayVolume = spawningManager.SpawnLocal<GameplayVolume>(Enums.SpawnableObjects.GameplayVolume);
             GameplayVolume.transform.localScale = gameplayVolumeSize;
         }
 

@@ -71,7 +71,7 @@ namespace DPTeam.AgentSystem
 
         private AgentController CreateAgent()
         {
-            AgentController agentController = Managers.Instance.SpawningManager.CreateObject<AgentController>(Enums.SpawnableObjects.Agent);
+            AgentController agentController = Managers.Instance.SpawningManager.SpawnLocal<AgentController>(Enums.SpawnableObjects.Agent);
             agentController.OnDeathAction = ReleaseAgent;
             agentController.transform.SetParent(transform);
             return agentController;
@@ -85,7 +85,8 @@ namespace DPTeam.AgentSystem
         }
 
         private void OnReleaseAgent(AgentController agent) => agent.gameObject.SetActive(false);
-        private void OnDestroyAgent(AgentController agent) => Object.Destroy(agent.gameObject);
+        private void OnDestroyAgent(AgentController agent) =>
+            Managers.Instance.SpawningManager.DespawnLocal(agent.gameObject);
         private void ReleaseAgent(AgentController agent) => agentPool.Release(agent);
 
 #endregion
