@@ -47,6 +47,11 @@ MonoBehaviour:
   <GameManager>k__BackingField:
     gameBoardSize: {x: 6, y: 4}
     gameplayVolumeSize: {x: 58, y: 0, z: 38}
+    interactionController:
+      interactionRange: 99
+      interactionLayer:
+        serializedVersion: 2
+        m_Bits: 64
   <SpawningManager>k__BackingField:
     spawnableItems:
     - {fileID: 11400000, guid: 627eddc000a7d0141b9580a661880cb1, type: 2}

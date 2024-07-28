@@ -31,9 +31,14 @@ namespace DPTeam
             
             SpawningManager.Awake();
             InputManager.Awake();
+            GameManager.Awake();
         }
 
-        private void OnDestroy() => InputManager.Destroy();
+        private void OnDestroy()
+        {
+            GameManager.OnDestroy();
+            InputManager.OnDestroy();
+        }
 
         private void Update() => UpdateManager.UpdateActions.InvokeActions();
         private void FixedUpdate() => UpdateManager.FixedUpdateActions.InvokeActions();

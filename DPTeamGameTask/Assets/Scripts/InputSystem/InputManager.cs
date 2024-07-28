@@ -20,10 +20,8 @@ namespace DPTeam.InputSystem
             BuildMapsList();
         }
 
-        public void Destroy()
-        {
+        public void OnDestroy() =>
             Managers.Instance.UpdateManager.UpdateActions.RemoveAction(UpdateCursorPosition);
-        }
 
         public void DisableAllMaps()
         {
