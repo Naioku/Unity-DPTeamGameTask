@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0007917a6dc04f399d28e1761970db7c, type: 3}
-  m_Name: AgentManager
+  m_Name: GameplayVolume
   m_EditorClassIdentifier: 
-  objName: 2
-  prefab: {fileID: 2819404833202979523, guid: ac7b54be12b3a3c46bc3b41ba41fede1, type: 3}
+  objName: 1
+  prefab: {fileID: 7420656790920598969, guid: 96aceb09e345a75408fb55a66a6bc6d2, type: 3}

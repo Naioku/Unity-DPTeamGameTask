@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0007917a6dc04f399d28e1761970db7c, type: 3}
-  m_Name: AgentManager
+  m_Name: GameBoard
   m_EditorClassIdentifier: 
-  objName: 2
-  prefab: {fileID: 2819404833202979523, guid: ac7b54be12b3a3c46bc3b41ba41fede1, type: 3}
+  objName: 0
+  prefab: {fileID: 4432366895740138044, guid: f77d53612bf26ea4cad57a1157b1c746, type: 3}

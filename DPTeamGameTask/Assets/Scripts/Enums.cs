@@ -4,6 +4,8 @@
     {
         public enum SpawnableObjects
         {
+            GameBoard,
+            GameplayVolume,
             AgentManager,
             Agent
         }

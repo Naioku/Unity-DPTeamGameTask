@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 namespace DPTeam.SpawningSystem
 {
     [Serializable]
-    public class SpawnManager<TKey> where TKey : Enum
+    public class SpawningManager<TKey> where TKey : Enum
     {
         [SerializeField] private List<SpawnableItem<TKey>> spawnableItems;
 

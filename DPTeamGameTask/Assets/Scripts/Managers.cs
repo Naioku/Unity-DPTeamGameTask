@@ -9,7 +9,7 @@ namespace DPTeam
         public static Managers Instance { get; private set; }
 
         [field: SerializeField] public GameManager GameManager { get; private set; }
-        [field: SerializeField] public SpawnManager<Enums.SpawnableObjects> SpawningManager { get; private set; }
+        [field: SerializeField] public SpawningManager<Enums.SpawnableObjects> SpawningManager { get; private set; }
         public UpdateManager UpdateManager { get; private set; }
 
         private void Awake()
