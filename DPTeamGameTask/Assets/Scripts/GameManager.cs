@@ -7,9 +7,19 @@ namespace DPTeam
     {
         [field: SerializeField] public GameplayVolume GameplayVolume { get; private set; }
 
+        private bool isGameStarted;
+
         public void StartGame()
         {
+            if (isGameStarted)
+            {
+                Debug.LogWarning("Game is currently running!");
+                return;
+            }
+
             Debug.Log("StartGame");
+            isGameStarted = true;
+            Managers.Instance.AgentManager.StartSpawning();
         }
 
         public void QuitGame()

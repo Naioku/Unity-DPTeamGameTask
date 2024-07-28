@@ -44,3 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ddd94380eb740e786c44c1563d96d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <GameManager>k__BackingField:
+    <GameplayVolume>k__BackingField: {fileID: 0}
+  <SpawningManager>k__BackingField:
+    spawnableItems:
+    - {fileID: 11400000, guid: cd663a0cf0bb71d40ac489a5679afe97, type: 2}
+  <AgentManager>k__BackingField:
+    health: 3
+    attackStrength: 1
+    speed: 5
+    maxPoolSize: 30

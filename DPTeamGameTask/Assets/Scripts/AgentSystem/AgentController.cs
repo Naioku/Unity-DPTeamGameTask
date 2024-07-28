@@ -8,18 +8,15 @@ namespace DPTeam.AgentSystem
     [RequireComponent(typeof(NavMeshAgent))]
     public class AgentController : MonoBehaviour
     {
-        [SerializeField] private int health = 3;
-        [SerializeField] private int attackStrength = 1;
-        [SerializeField] private float speed = 5;
-
+        private int health;
+        private int attackStrength;
+        
         private NavMeshAgent navMeshAgent;
         private Vector3 currentDestination;
+
+        public System.Action<AgentController> OnDeathAction { private get; set; }
         
-        private void Awake()
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.speed = speed;
-        }
+        private void Awake() => navMeshAgent = GetComponent<NavMeshAgent>();
 
         private void OnEnable() => StartMovement();
         private void OnDisable() => StopMovement();
@@ -29,6 +26,13 @@ namespace DPTeam.AgentSystem
             if (!other.transform.TryGetComponent<AgentController>(out var hitAgent)) return;
 
             hitAgent.Attack(attackStrength);
+        }
+
+        public void Initialize(int health, int attackStrength, float speed)
+        {
+            this.health = health;
+            this.attackStrength = attackStrength;
+            navMeshAgent.speed = speed;
         }
 
         private void Attack(int attackStrength)
@@ -42,7 +46,7 @@ namespace DPTeam.AgentSystem
             }
         }
 
-        private void PerformDeath() => Debug.Log($"{name}: PerformDeath");
+        private void PerformDeath() => OnDeathAction.Invoke(this);
 
         private void StartMovement()
         {

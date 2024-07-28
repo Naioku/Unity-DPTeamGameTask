@@ -1,4 +1,5 @@
-﻿using System;
+using DPTeam.AgentSystem;
+using DPTeam.SpawningSystem;
 using DPTeam.UpdateSystem;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace DPTeam
         public static Managers Instance { get; private set; }
 
         [field: SerializeField] public GameManager GameManager { get; private set; }
+        [field: SerializeField] public SpawnManager<Enums.SpawnableObjects> SpawningManager { get; private set; }
+        [field: SerializeField] public AgentManager AgentManager { get; private set; }
         public UpdateManager UpdateManager { get; private set; }
 
         private void Awake()
@@ -24,6 +27,9 @@ namespace DPTeam
             }
 
             UpdateManager = new UpdateManager();
+            
+            AgentManager.Awake();
+            SpawningManager.Awake();
         }
         
         private void Update() => UpdateManager.UpdateActions.InvokeActions();
