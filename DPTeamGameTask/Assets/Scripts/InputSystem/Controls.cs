@@ -55,6 +55,15 @@ namespace DPTeam.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CameraZoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""b78e13a0-8c10-4146-97a2-9de4cdd46271"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""NormalizeVector2"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ namespace DPTeam.InputSystem
                     ""action"": ""ShowMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1db19b99-5808-469e-963a-d78bed321388"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraZoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -101,6 +121,7 @@ namespace DPTeam.InputSystem
             m_Global_ClickInteraction = m_Global.FindAction("ClickInteraction", throwIfNotFound: true);
             m_Global_Deselect = m_Global.FindAction("Deselect", throwIfNotFound: true);
             m_Global_ShowMenu = m_Global.FindAction("ShowMenu", throwIfNotFound: true);
+            m_Global_CameraZoom = m_Global.FindAction("CameraZoom", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -165,6 +186,7 @@ namespace DPTeam.InputSystem
         private readonly InputAction m_Global_ClickInteraction;
         private readonly InputAction m_Global_Deselect;
         private readonly InputAction m_Global_ShowMenu;
+        private readonly InputAction m_Global_CameraZoom;
         public struct GlobalActions
         {
             private @Controls m_Wrapper;
@@ -172,6 +194,7 @@ namespace DPTeam.InputSystem
             public InputAction @ClickInteraction => m_Wrapper.m_Global_ClickInteraction;
             public InputAction @Deselect => m_Wrapper.m_Global_Deselect;
             public InputAction @ShowMenu => m_Wrapper.m_Global_ShowMenu;
+            public InputAction @CameraZoom => m_Wrapper.m_Global_CameraZoom;
             public InputActionMap Get() { return m_Wrapper.m_Global; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -190,6 +213,9 @@ namespace DPTeam.InputSystem
                 @ShowMenu.started += instance.OnShowMenu;
                 @ShowMenu.performed += instance.OnShowMenu;
                 @ShowMenu.canceled += instance.OnShowMenu;
+                @CameraZoom.started += instance.OnCameraZoom;
+                @CameraZoom.performed += instance.OnCameraZoom;
+                @CameraZoom.canceled += instance.OnCameraZoom;
             }
 
             private void UnregisterCallbacks(IGlobalActions instance)
@@ -203,6 +229,9 @@ namespace DPTeam.InputSystem
                 @ShowMenu.started -= instance.OnShowMenu;
                 @ShowMenu.performed -= instance.OnShowMenu;
                 @ShowMenu.canceled -= instance.OnShowMenu;
+                @CameraZoom.started -= instance.OnCameraZoom;
+                @CameraZoom.performed -= instance.OnCameraZoom;
+                @CameraZoom.canceled -= instance.OnCameraZoom;
             }
 
             public void RemoveCallbacks(IGlobalActions instance)
@@ -225,6 +254,7 @@ namespace DPTeam.InputSystem
             void OnClickInteraction(InputAction.CallbackContext context);
             void OnDeselect(InputAction.CallbackContext context);
             void OnShowMenu(InputAction.CallbackContext context);
+            void OnCameraZoom(InputAction.CallbackContext context);
         }
     }
 }

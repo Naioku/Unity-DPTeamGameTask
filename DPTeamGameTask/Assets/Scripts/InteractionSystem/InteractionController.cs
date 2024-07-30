@@ -21,9 +21,9 @@ namespace DPTeam.InteractionSystem
         private Enums.InteractionType currentInteractionType = DefaultInteractionType;
         private const Enums.InteractionType DefaultInteractionType = Enums.InteractionType.Hover;
 
-        public void Awake(Camera camera)
+        public void Awake(CameraController cameraController)
         {
-            mainCamera = camera;
+            mainCamera = cameraController.CameraObject;
             AddInput();
         }
 
