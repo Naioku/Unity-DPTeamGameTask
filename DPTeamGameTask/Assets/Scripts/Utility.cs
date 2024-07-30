@@ -31,5 +31,20 @@ namespace DPTeam
             max -= min;
             return max * (arg * arg * arg) + min;
         }
+        
+        public static int GetMask(params int[] layerNumbers)
+        {
+            if (layerNumbers == null)
+                throw new System.ArgumentNullException(nameof (layerNumbers));
+            int mask = 0;
+            foreach (int layer in layerNumbers)
+            {
+                if (layer != -1)
+                    mask |= 1 << layer;
+            }
+            return mask;
+        }
+
+        public static bool IsLayerInLayerMask(LayerMask layerMask, int layer) => (layerMask & layer) == layer;
     }
 }

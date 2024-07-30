@@ -7,9 +7,13 @@ namespace DPTeam.InteractionSystem
     [Serializable]
     public class InteractionController
     {
+        private const int HitResultsBufferSize = 10;
         [SerializeField] private float interactionRange = 99;
+        
         [SerializeField] private LayerMask interactionLayer;
+        [SerializeField] private LayerMask blockingLayers;
 
+        private RaycastHit[] hitResultsBuffer = new RaycastHit [HitResultsBufferSize];
         private Camera mainCamera;
         private Interaction currentInteraction;
         private RaycastHit currentHitInfo;
@@ -55,9 +59,27 @@ namespace DPTeam.InteractionSystem
         private void PerformInteraction()
         {
             Ray ray = mainCamera.ScreenPointToRay(Managers.Instance.InputManager.CursorPosition);
-            Interaction currentlyCheckedInteraction = !Physics.Raycast(ray, out currentHitInfo, interactionRange, interactionLayer) ?
-                null : currentHitInfo.transform.GetComponent<Interaction>();
-            
+		    
+            Interaction currentlyCheckedInteraction = null;
+            int raycastHitsNumber = Physics.RaycastNonAlloc(ray, hitResultsBuffer, interactionRange);
+            for (int i = 0; i < raycastHitsNumber; i++)
+            {
+                Transform hitResultTransform = hitResultsBuffer[i].collider.transform;
+                int checkedLayer = hitResultTransform.gameObject.layer;
+                if (Utility.IsLayerInLayerMask(blockingLayers, checkedLayer)) return;
+
+                if (Utility.GetMask(checkedLayer) == interactionLayer)
+                {
+                    if (!hitResultTransform.TryGetComponent(out currentlyCheckedInteraction))
+                    {
+                        Debug.LogWarning($"Game object {hitResultTransform.name} hasn't got {nameof(Interaction)} component," +
+                                         $"but has layer: {LayerMask.LayerToName(interactionLayer)}.");
+                    }
+                        
+                    break;
+                }
+            }
+
             if (currentlyCheckedInteraction != currentInteraction)
             {
                 SwitchInteraction(currentlyCheckedInteraction);
