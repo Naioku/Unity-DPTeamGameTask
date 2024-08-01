@@ -38,6 +38,7 @@ namespace DPTeam.AgentSystem
         public void OnDestroy()
         {
             agentPool.Clear();
+            Managers.Instance.SpawningManager.DespawnLocal(hud.gameObject);
             Managers.Instance.UpdateManager.UpdateActions.RemoveAction(SpawnAgentInCycle);
             Managers.Instance.InputManager.GlobalMap.OnDeselectData.Performed -= DeselectAgentInput;
         }
